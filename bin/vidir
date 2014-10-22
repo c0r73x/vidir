@@ -12,7 +12,7 @@ use File::Basename;
 use File::Spec;
 use File::Temp;
 use File::Copy;
-use File::Path ();
+use File::Path qw(make_path);
 use Getopt::Long;
 
 my($error, $verbose, $hidden, $recursive) = (0, 0, 0, 0);
@@ -141,10 +141,10 @@ while(<$IN>) {
             }
 
             # deal with swaps
-            if(-e $name || -l $name) {
+            if(-e $name or -l $name) {
                 my $tmp = $name . "~";
                 my $c   = 0;
-                while(-e $tmp || -l $tmp) {
+                while(-e $tmp or -l $tmp) {
                     $c++;
                     $tmp = $name . "~$c";
                 }
@@ -161,7 +161,7 @@ while(<$IN>) {
                 }
             }
 
-            File::Path::make_path(dirname($name));
+            make_path(dirname($name));
             if(exists $copy{$num}) {
                 $src = $copy{$num};
 
@@ -191,7 +191,16 @@ while(<$IN>) {
     } elsif(/^\s*$/) {
 
         # skip empty line
+    } elsif(/^\s*\t{0,1}(.*)\/$/) {
+        if($verbose) {
+            print "mkdir '$1'\n";
+        }
+        make_path($1) or die "unable to mkdir \"$1\"\n";
     } elsif(/^\s*\t{0,1}(.*)/) {
+        make_path(dirname($1));
+        if($verbose) {
+            print "touch '$1'\n";
+        }
         open(my $NEW, '>>', $1) or die "unable to touch \"$1\"\n";
         close($NEW);
     } else {
