@@ -60,9 +60,11 @@ Set VIDIR\_EDITOR_ARGS accordingly:
     Joey Hess <joey@kitenet.net> 2006-2010
 
     Modifications by Magnus Woldrich <m@japh.se> 2011
+    
+    Modifications by Christian Persson <c0r73x@gmail.com> 2014
 
 # COPYRIGHT
-    Copyright 2006-2011 the vidir "AUTHOR"s as listed above.
+    Copyright 2006-2014 the vidir "AUTHOR"s as listed above.
 
     Licensed under the GNU GPL.
 
